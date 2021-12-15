@@ -4,12 +4,17 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var methodOverride = require('method-override');
+var session = require('express-session');
+var passport = require('passport');
+const isLoggedIn = require('./config/auth');
 
 
 //require dotenv file
 require('dotenv').config();
 //require data base to connect
 require('./config/database')
+//requiring passport config file
+require('./config/passport');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -24,6 +29,22 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+//mounting seession middleware
+app.use(session({
+  secret: process.env.SECRET,
+  resave: false,
+  saveUninitialized: true
+}));
+//mounting passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+//pass req.user down to every template
+app.use(function (req, res, next) {
+  res.locals.user = req.user;
+  next();
+});
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride('_method'));
 

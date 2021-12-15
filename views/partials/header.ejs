@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,6 +8,13 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <title>Transaction Register</title>
 </head>
+
 <body>
-    <nav><a href="/"> Home </a></nav>
-    
+    <nav>
+        <a href="/"> Home </a>
+        <% if (user) { %>
+            <a href="/logout">LOG OUT</a>
+         <% } else { %>
+                <a href="/auth/google">LOG IN</a>
+        <% } %>
+    </nav>
