@@ -6,11 +6,11 @@
         <h3>Get started by adding an account!</h3>
     <% } %>
     <% accounts.forEach(function(account) { %>
-        <div class="d-flex"><div><%= account.name %> </div><div> Balance: $<%= account.transactions.reduce(function(acc, trans){return acc + trans.amount},0)%></div></div>
+        <div class="d-flex"><div><a href="/accounts/<%= account._id %>"><%= account.name %></a> </div><div> Balance: $<%= account.transactions.reduce((acc,trans)=>acc+trans.amount,0)%></div></div>
     <% }) %>
     <form action="/accounts" method="POST">
         <label>Name: <input name="name" type="text"> </label>
-        <label>Current Balance: <input name="amount" type="number"></label>
+        <label>Current Balance: <input name="amount" step=".01" type="number"></label>
         <button class="btn btn-light" type="submit">Submit</button>
     </form>
 </div>

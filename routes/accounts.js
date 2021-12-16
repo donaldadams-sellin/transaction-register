@@ -10,5 +10,8 @@ router.get('/', accountsCtrl.index);
 //POST request to create new account
 router.post('/', accountsCtrl.create)
 
+//GET request to view specific account
+router.get('/:id', accountsCtrl.show)
+
 
 module.exports = router;

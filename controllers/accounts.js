@@ -3,6 +3,7 @@ const Account = require('../models/account');
 module.exports = {
     index,
     create,
+    show,
 }
 
 async function index (req, res) {
@@ -11,7 +12,6 @@ async function index (req, res) {
 }
 
 function create (req, res) {
-    console.log(req.body);
     const account = new Account();
     account.name = req.body.name;
     account.user = req.user._id
@@ -19,4 +19,9 @@ function create (req, res) {
     account.transactions.push({date: new Date(), amount: req.body.amount, category:'Deposit', description:'Initial Balance'})
     account.save();
     res.redirect('/accounts')
+}
+
+async function show(req, res){
+    const account = await Account.findById(req.params.id)
+    res.render('accounts/show', {account})
 }
