@@ -1,12 +1,33 @@
 <%- include('../partials/header') %>
     <h2 class="d-flex justify-content-center">
-        <div>
+        <div class="flex-fill">
             <%= account.name %>
         </div>
-        <div> Balance: $<%= account.transactions.reduce((acc,trans)=>acc+trans.amount,0)%></div>
+        <div class=""> Balance: $<%= account.transactions.reduce((acc,trans)=>acc+trans.amount,0).toFixed(2)%></div>
     </h2>
+
+    <div>
+        <form action="/accounts/<%= account._id %>/transactions" method="POST">
+            <label>Date:</label>
+             <input name="date" type="date">
+            <label>Description:</label> 
+            <input name="description" type="text">
+            <label>Category:</label> 
+            <select name="category" id="">
+                <option value="Bill">Bill</option>
+                <option value="Deposit">Deposit</option>
+                <option value="ATM">ATM</option>
+                <option value="Groceries">Groceries</option>
+                <option value="Misc">Other</option>
+            </select>
+            <label>Amount:</label> 
+            <input name="amount" type="number" step=.01>
+            <button type="submit" class="btn btn-light">Submit</button>
+        </form>
+    </div>
+
     <div class="d-flex flex-column align-items-center">
-        <table>
+        <table class="table">
             <thead>
                 <th>Date</th>
                 <th>Description</th>
@@ -14,16 +35,26 @@
                 <th>Amount</th>
             </thead>
             <tbody>
+
                 <% account.transactions.forEach(function(transaction){ %>
                     <tr>
-                        <td><%= transaction.date.getMonth() +1 %>/<%= transaction.date.getDate() %>/<%= transaction.date.getFullYear() %></td>
-                        <td><%= transaction.description %></td>
-                        <td><%= transaction.category %></td>
-                        <td><%= transaction.amount %></td>
+                        <td>
+                            <%= transaction.date.getMonth() +1 %>/<%= transaction.date.getDate() %>/<%=
+                                        transaction.date.getFullYear() %>
+                        </td>
+                        <td>
+                            <%= transaction.description %>
+                        </td>
+                        <td>
+                            <%= transaction.category %>
+                        </td>
+                        <td>
+                            <%= transaction.amount %>
+                        </td>
                     </tr>
 
-                <% }) %>
-                
+                    <% }) %>
+
             </tbody>
         </table>
     </div>

@@ -23,5 +23,10 @@ function create (req, res) {
 
 async function show(req, res){
     const account = await Account.findById(req.params.id)
+    account.transactions.sort(function(tran1, tran2){
+        if (tran1.date < tran2.date) return -1;
+        if (tran1.date > tran2.date) return 1;
+        return 0;
+    })
     res.render('accounts/show', {account})
 }

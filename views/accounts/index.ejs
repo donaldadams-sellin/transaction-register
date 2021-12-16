@@ -5,12 +5,19 @@
     <% if(accounts.length === 0){ %>
         <h3>Get started by adding an account!</h3>
     <% } %>
+    <table class="table">
     <% accounts.forEach(function(account) { %>
-        <div class="d-flex"><div><a href="/accounts/<%= account._id %>"><%= account.name %></a> </div><div> Balance: $<%= account.transactions.reduce((acc,trans)=>acc+trans.amount,0)%></div></div>
-    <% }) %>
+        <tr>
+            <td class="flex-fill"><a href="/accounts/<%= account._id %>"><%= account.name %></a> </td>
+            <td> Balance: $<%= account.transactions.reduce((acc,trans)=>acc+trans.amount,0)%></td>
+        </tr>
+            <% }) %>
+        </table>
     <form action="/accounts" method="POST">
-        <label>Name: <input name="name" type="text"> </label>
-        <label>Current Balance: <input name="amount" step=".01" type="number"></label>
+        <label>Name:  </label>
+        <input name="name" type="text">
+        <label>Current Balance:  </label>
+        <input name="amount" step=".01" type="number">
         <button class="btn btn-light" type="submit">Submit</button>
     </form>
 </div>
