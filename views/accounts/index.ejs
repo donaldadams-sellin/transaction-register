@@ -1,0 +1,17 @@
+<%- include('../partials/header') %>
+<div class="d-flex align-items-center flex-column">
+    <h1>Accounts</h1>
+    <br>
+    <% if(accounts.length === 0){ %>
+        <h3>Get started by adding an account!</h3>
+    <% } %>
+    <% accounts.forEach(function(account) { %>
+        <div class="d-flex"><div><%= account.name %> </div><div> Balance: $<%= account.transactions.reduce(function(acc, trans){return acc + trans.amount},0)%></div></div>
+    <% }) %>
+    <form action="/accounts" method="POST">
+        <label>Name: <input name="name" type="text"> </label>
+        <label>Current Balance: <input name="amount" type="number"></label>
+        <button class="btn btn-light" type="submit">Submit</button>
+    </form>
+</div>
+<%- include('../partials/footer') %>

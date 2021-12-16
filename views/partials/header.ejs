@@ -12,10 +12,11 @@
 
 <body class="container">
     <nav class="navbar">
-        <a href="/"> Home </a>
         <% if (user) { %>
+            <a href="/accounts"> Accounts </a>
             <a href="/logout">LOG OUT</a>
-         <% } else { %>
+            <% } else { %>
+                <a href="/"> Home </a>
                 <a href="/auth/google">LOG IN</a>
         <% } %>
     </nav>
