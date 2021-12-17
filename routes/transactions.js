@@ -11,5 +11,6 @@ router.post('/accounts/:id/transactions', transactionsCtrl.create);
 router.delete('/transactions/:id', transactionsCtrl.delete)
 
 //PUT route to update transaction for editing
+router.put('/transactions/:id', transactionsCtrl.update)
 
 module.exports = router;
