@@ -9,7 +9,7 @@
     <div>
         <form action="/accounts/<%= account._id %>/transactions" method="POST">
             <label>Date:</label>
-             <input name="date" type="date">
+             <input required name="date" type="date">
             <label>Description:</label> 
             <input name="description" type="text">
             <label>Category:</label> 
@@ -27,17 +27,18 @@
     </div>
 
     <div class="d-flex flex-column align-items-center">
-        <table class="table">
+        <table class="table table-hover">
             <thead>
                 <th>Date</th>
                 <th>Description</th>
                 <th>Category</th>
                 <th>Amount</th>
+                <th></th>
             </thead>
             <tbody>
 
                 <% account.transactions.forEach(function(transaction){ %>
-                    <tr>
+                    <tr data-bs-toggle="collapse" class="accordion-toggle" href="#edit<%= transaction._id %>">
                         <td>
                             <%= transaction.date.getMonth() +1 %>/<%= transaction.date.getDate() %>/<%=
                                         transaction.date.getFullYear() %>
@@ -48,11 +49,41 @@
                         <td>
                             <%= transaction.category %>
                         </td>
-                        <td>
+                        <td style=<%= transaction.amount > 0 ? "color:green" : "color:black"%> >
                             <%= transaction.amount %>
                         </td>
+                        
                     </tr>
-
+                    
+                    <td colspan="4" class="accordian-body collapse" id="edit<%= transaction._id %>">
+                    
+                        <div class="card card-body">
+                            <form action="/transactions/<%= transaction._id %>?_method=PUT" method="POST">
+                                <label>Date:</label>
+                                <input value="<%= transaction.date %>"  required name="date" type="date">
+                                <label>Description:</label> 
+                                <input value="<%= transaction.description %>" name="description" type="text">
+                                <label>Category:</label> 
+                                <select value="<%= transaction.category %>"  name="category" id="">
+                                    <option value="Bill">Bill</option>
+                                    <option value="Deposit">Deposit</option>
+                                    <option value="ATM">ATM</option>
+                                    <option value="Groceries">Groceries</option>
+                                    <option value="Misc">Other</option>
+                                </select>
+                                <label>Amount:</label> 
+                                <input  value="<%= transaction.amount %>" name="amount" type="number" step=.01>
+                                <button type="submit" class="btn btn-dark">Submit</button>
+                            </form>
+                            </div>
+                            
+                                <form action="/transactions/<%= transaction._id %>?_method=DELETE" method ="POST">
+                                    <button class="btn btn-sm btn-danger">Delete</button>
+                                </form>
+                            
+                            </td>
+                    
+                    
                     <% }) %>
 
             </tbody>

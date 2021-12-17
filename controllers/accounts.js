@@ -17,12 +17,12 @@ function create (req, res) {
     account.user = req.user._id
     req.body.amount === '' ? req.body.amount = 0 : req.body.amount = Number(req.body.amount);
     account.transactions.push({date: new Date(), amount: req.body.amount, category:'Deposit', description:'Initial Balance'})
-    account.save();
-    res.redirect('/accounts')
+    account.save().then(res.redirect('/accounts'));
 }
 
 async function show(req, res){
     const account = await Account.findById(req.params.id)
+    if(!req.user._id.equals(account.user)) return res.redirect('/accounts');
     account.transactions.sort(function(tran1, tran2){
         if (tran1.date < tran2.date) return -1;
         if (tran1.date > tran2.date) return 1;

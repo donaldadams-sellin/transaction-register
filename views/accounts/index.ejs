@@ -9,7 +9,7 @@
     <% accounts.forEach(function(account) { %>
         <tr>
             <td class="flex-fill"><a href="/accounts/<%= account._id %>"><%= account.name %></a> </td>
-            <td> Balance: $<%= account.transactions.reduce((acc,trans)=>acc+trans.amount,0)%></td>
+            <td> Balance: $<%= account.transactions.reduce((acc,trans)=>acc+trans.amount,0).toFixed(2)%></td>
         </tr>
             <% }) %>
         </table>
