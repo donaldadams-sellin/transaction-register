@@ -38,7 +38,7 @@
             <tbody>
 
                 <% account.transactions.forEach(function(transaction){ %>
-                    <tr data-bs-toggle="collapse" class="accordion-toggle" data-bs-target="#edit<%= transaction._id %>">
+                    <tr >
                         <td>
                             <%= transaction.date.getMonth() +1 %>/<%= transaction.date.getDate() %>/<%= transaction.date.getFullYear() %>
                         </td>
@@ -51,10 +51,12 @@
                         <td style=<%= transaction.amount > 0 ? "color:green" : "color:black"%> >
                             $<%= Math.abs(transaction.amount) %>
                         </td>
-                        
+                        <td>
+                            <button data-bs-toggle="collapse" class="accordion-toggle" data-bs-target="#edit<%= transaction._id %>">Edit</button>
+                        </td>
                     </tr>
                     
-                    <td colspan="4" class="accordian-body collapse" id="edit<%= transaction._id %>">
+                    <td colspan="5" class="accordian-body collapse" id="edit<%= transaction._id %>">
                     
                         <div class="card card-body">
                             <p>Edit Transaction</p>

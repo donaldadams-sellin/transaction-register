@@ -6,11 +6,37 @@
         <h3>Get started by adding an account!</h3>
     <% } %>
     <table class="table">
+        <thead>
+            <th>Name</th>
+            <th>Balance</th>
+        </thead>
     <% accounts.forEach(function(account) { %>
         <tr>
             <td class="flex-fill"><a href="/accounts/<%= account._id %>"><%= account.name %></a> </td>
-            <td> Balance: $<%= account.transactions.reduce((acc,trans)=>acc+trans.amount,0).toFixed(2)%></td>
+            <td>$<%= account.transactions.reduce((acc,trans)=>acc+trans.amount,0).toFixed(2)%></td>
+            <td>
+                <button data-bs-toggle="collapse" class="accordion-toggle" data-bs-target="#edit<%= account._id %>">Edit</button>
+            </td>
         </tr>
+        <td colspan="3" class="accordian-body collapse" id="edit<%= account._id %>">
+                    
+            <div class="card card-body">
+                <p>Edit account</p>
+                <form action="/accounts/<%= account._id %>?_method=PUT" method="POST">
+                    <label>
+                        Name:
+                    </label>
+                    <input name="name" value="<%= account.name %>" type="text">
+                    <button type="submit" class="btn btn-dark">Submit</button>
+                </form>
+                <form action="/accounts/<%= account._id %>?_method=DELETE" method ="POST">
+                    <button class="btn btn-sm btn-danger">Delete</button>
+                </form>
+                
+                </div>
+                
+                
+                </td>
             <% }) %>
         </table>
     <form action="/accounts" method="POST">
