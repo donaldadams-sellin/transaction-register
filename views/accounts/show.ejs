@@ -13,7 +13,7 @@
             <label>Description:</label> 
             <input name="description" type="text">
             <label>Category:</label> 
-            <select name="category" id="">
+            <select name="category">
                 <option value="Bill">Bill</option>
                 <option value="Deposit">Deposit</option>
                 <option value="ATM">ATM</option>
@@ -25,7 +25,18 @@
             <button type="submit" class="btn btn-light">Submit</button>
         </form>
     </div>
-
+    <form action="/accounts/<%= account._id %>/filter" method="POST">
+        <label>Filter:</label> 
+        <select name="category">
+            <option value="All">All</option>
+            <option value="Bill">Bill</option>
+            <option value="Deposit">Deposit</option>
+            <option value="ATM">ATM</option>
+            <option value="Groceries">Groceries</option>
+            <option value="Misc">Other</option>
+        </select>
+        <button class="btn btn-light btn-sm" type="submit">Submit</button>
+    </form>
     <div class="d-flex flex-column align-items-center">
         <table class="table table-hover">
             <thead>

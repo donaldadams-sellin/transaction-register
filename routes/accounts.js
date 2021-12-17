@@ -19,4 +19,7 @@ router.delete('/:id', accountsCtrl.delete);
 //PUT request to change account name
 router.put('/:id', accountsCtrl.update);
 
+//POST request to filter accounts transactions
+router.post('/:id/filter', accountsCtrl.filter)
+
 module.exports = router;

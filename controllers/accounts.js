@@ -5,7 +5,8 @@ module.exports = {
     create,
     show,
     delete: deleteAccount,
-    update
+    update,
+    filter
 }
 
 async function index(req, res) {
@@ -23,11 +24,11 @@ function create(req, res) {
 }
 
 async function show(req, res) {
-    const account = await Account.findById(req.params.id)
+    const account = await Account.findById(req.params.id);
     if (!req.user._id.equals(account.user)) return res.redirect('/accounts');
     account.transactions.sort(function (tran1, tran2) {
-        if (tran1.date < tran2.date) return -1;
-        if (tran1.date > tran2.date) return 1;
+        if (tran1.date < tran2.date) return 1;
+        if (tran1.date > tran2.date) return -1;
         return 0;
     })
     res.render('accounts/show', { account })
@@ -44,4 +45,16 @@ async function update(req, res) {
     if(!account.user.equals(req.user._id)) return redirect('/accounts');
     account.name = req.body.name;
     account.save().then(res.redirect('/accounts'))
+}
+
+async function filter(req, res){
+    const account = await Account.findById(req.params.id);
+    if(req.body.category === 'All') return res.redirect(`/accounts/${account._id}`)
+    account.transactions = account.transactions.filter(transaction => transaction.category === req.body.category);
+    account.transactions.sort(function (tran1, tran2) {
+        if (tran1.date < tran2.date) return 1;
+        if (tran1.date > tran2.date) return -1;
+        return 0;
+    })
+    res.render('accounts/show', { account })
 }
