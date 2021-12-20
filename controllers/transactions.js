@@ -11,6 +11,8 @@ async function create (req, res){
     const account = await Account.findById(req.params.id);
     //ensure user creating transaction is accounts owner
     if(!req.user._id.equals(account.user)) return res.redirect('/accounts');
+   //append a time to date to make it display properly, was displaying as previous date without this
+    req.body.date = new Date(req.body.date+'T01:00');
     account.transactions.push(req.body);
     account.save()
     .then(function(){
