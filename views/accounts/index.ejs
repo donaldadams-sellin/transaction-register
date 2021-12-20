@@ -1,23 +1,32 @@
 <%- include('../partials/header') %>
 <div class="d-flex align-items-center flex-column">
-    <h1>Accounts</h1>
+   <br><br>
+    <h1 class="border rounded-pill p-3 bg-light d-flex align-items-center flex-column">Accounts</h1>
+    
     <br>
     <% if(accounts.length === 0){ %>
         <h3>Get started by adding an account!</h3>
-    <% } %>
-    <table class="table">
+    <% } else {%>
+    <table class="table rounded bg-light">
         <thead>
             <th>Name</th>
             <th>Balance</th>
         </thead>
+        <% } %>
     <% accounts.forEach(function(account) { %>
         <tr>
             <td class="flex-fill"><a href="/accounts/<%= account._id %>"><%= account.name %></a> </td>
             <td>$<%= account.transactions.reduce((acc,trans)=>acc+trans.amount,0).toFixed(2)%></td>
             <td>
-                <button data-bs-toggle="collapse" class="accordion-toggle" data-bs-target="#edit<%= account._id %>">Edit</button>
+                <button data-bs-toggle="collapse" class="btn btn-sm btn-dark accordion-toggle" data-bs-target="#edit<%= account._id %>">Edit</button>
+            </td>
+            <td>
+                <form action="/accounts/<%= account._id %>?_method=DELETE" method ="POST">
+                    <button class="btn btn-sm btn-danger">X</button>
+                </form>
             </td>
         </tr>
+
         <td colspan="3" class="accordian-body collapse" id="edit<%= account._id %>">
                     
             <div class="card card-body">
@@ -28,9 +37,6 @@
                     </label>
                     <input name="name" value="<%= account.name %>" type="text">
                     <button type="submit" class="btn btn-dark">Submit</button>
-                </form>
-                <form action="/accounts/<%= account._id %>?_method=DELETE" method ="POST">
-                    <button class="btn btn-sm btn-danger">Delete</button>
                 </form>
                 
                 </div>

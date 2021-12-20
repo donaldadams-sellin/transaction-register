@@ -1,12 +1,14 @@
 <%- include('../partials/header') %>
-    <h2 class="d-flex justify-content-center">
+<br>    
+<h2 class="d-flex bg-light rounded-pill p-2 justify-content-center">
         <div class="flex-fill">
             <%= account.name %>
         </div>
         <div class=""> Balance: $<%= account.transactions.reduce((acc,trans)=>acc+trans.amount,0).toFixed(2)%></div>
     </h2>
+    <br>
 
-    <div>
+    <div class="bg-light rounded">
         <form action="/accounts/<%= account._id %>/transactions" method="POST">
             <label>Date:</label>
              <input required name="date" type="date">
@@ -24,21 +26,23 @@
             <input name="amount" type="number" step=.01>
             <button type="submit" class="btn btn-light">Submit</button>
         </form>
+        <br>
+        <form action="/accounts/<%= account._id %>/filter" method="POST">
+            <label>Filter:</label> 
+            <select name="category">
+                <option value="All">All</option>
+                <option value="Bill">Bill</option>
+                <option value="Deposit">Deposit</option>
+                <option value="ATM">ATM</option>
+                <option value="Groceries">Groceries</option>
+                <option value="Misc">Other</option>
+            </select>
+            <button class="btn btn-light btn-sm" type="submit">Submit</button>
+        </form>
     </div>
-    <form action="/accounts/<%= account._id %>/filter" method="POST">
-        <label>Filter:</label> 
-        <select name="category">
-            <option value="All">All</option>
-            <option value="Bill">Bill</option>
-            <option value="Deposit">Deposit</option>
-            <option value="ATM">ATM</option>
-            <option value="Groceries">Groceries</option>
-            <option value="Misc">Other</option>
-        </select>
-        <button class="btn btn-light btn-sm" type="submit">Submit</button>
-    </form>
+    <br> <br>
     <div class="d-flex flex-column align-items-center">
-        <table class="table table-hover">
+        <table class="table rounded table-hover bg-light">
             <thead>
                 <th>Date</th>
                 <th>Description</th>
@@ -63,13 +67,18 @@
                             $<%= Math.abs(transaction.amount) %>
                         </td>
                         <td>
-                            <button data-bs-toggle="collapse" class="accordion-toggle" data-bs-target="#edit<%= transaction._id %>">Edit</button>
+                            <button data-bs-toggle="collapse" class="btn btn-sm btn-dark accordion-toggle" data-bs-target="#edit<%= transaction._id %>">Edit</button>
+                        </td>
+                        <td>
+                            <form action="/transactions/<%= transaction._id %>?_method=DELETE" method ="POST">
+                                <button class="btn btn-sm btn-danger">X</button>
+                            </form>
                         </td>
                     </tr>
                     
                     <td colspan="5" class="accordian-body collapse" id="edit<%= transaction._id %>">
                     
-                        <div class="card card-body">
+                        <div class="">
                             <p>Edit Transaction</p>
                             <form action="/transactions/<%= transaction._id %>?_method=PUT" method="POST">
                                 <label>Date:</label>
@@ -77,19 +86,16 @@
                                 <label>Description:</label> 
                                 <input value="<%= transaction.description %>" name="description" type="text">
                                 <label>Category:</label> 
-                                <select value="<%= transaction.category %>"  name="category" id="">
+                                <select name="category" id="">
                                     <option value="Bill">Bill</option>
-                                    <option value="Deposit">Deposit</option>
-                                    <option value="ATM">ATM</option>
-                                    <option value="Groceries">Groceries</option>
-                                    <option value="Misc">Other</option>
+                                    <option <%= transaction.category==="Deposit" ? "selected" : null %>  value="Deposit">Deposit</option>
+                                    <option <%= transaction.category==="ATM" ? "selected" : null %> value="ATM">ATM</option>
+                                    <option <%= transaction.category==="Groceries" ? "selected" : null %> value="Groceries">Groceries</option>
+                                    <option <%= transaction.category==="Misc" ? "selected" : null %> value="Misc">Other</option>
                                 </select>
                                 <label>Amount:</label> 
                                 <input  value="<%= Math.abs(transaction.amount) %>" name="amount" type="number" step=.01>
                                 <button type="submit" class="btn btn-dark">Submit</button>
-                            </form>
-                            <form action="/transactions/<%= transaction._id %>?_method=DELETE" method ="POST">
-                                <button class="btn btn-sm btn-danger">Delete</button>
                             </form>
                             
                             </div>

@@ -1,3 +1,4 @@
+const { NotExtended } = require('http-errors');
 const Account = require('../models/account');
 
 module.exports = {
@@ -20,7 +21,12 @@ function create(req, res) {
     account.user = req.user._id
     req.body.amount === '' ? req.body.amount = 0 : req.body.amount = Number(req.body.amount);
     account.transactions.push({ date: new Date(), amount: req.body.amount, category: 'Deposit', description: 'Initial Balance' })
-    account.save().then(res.redirect('/accounts'));
+    account.save()
+    .then(function(){
+        res.redirect('/accounts')
+    }).catch(function(err){
+        return next(err);
+    });
 }
 
 async function show(req, res) {
@@ -44,7 +50,12 @@ async function update(req, res) {
     const account = await Account.findOne({'account._id': req.params.id});
     if(!account.user.equals(req.user._id)) return redirect('/accounts');
     account.name = req.body.name;
-    account.save().then(res.redirect('/accounts'))
+    account.save()
+    .then(function(){
+        res.redirect('/accounts')
+    }).catch(function(err){
+        return next(err);
+    });
 }
 
 async function filter(req, res){

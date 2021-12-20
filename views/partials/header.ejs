@@ -12,14 +12,14 @@
 </head>
 
 <body class="container">
-    <nav class="navbar">
-        <% if (user) { %>
+    <% if (user) { %>
+        <nav class="navbar  rounded p-2 bg-light">
             <a href="/accounts"> Accounts </a>
             <a href="/logout">LOG OUT</a>
+        </nav>
             <% } else { %>
-                <a href="/"> Home </a>
-                <a href="/auth/google">LOG IN</a>
+                
+            
         <% } %>
-    </nav>
 
     
