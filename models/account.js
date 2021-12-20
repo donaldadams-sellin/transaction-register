@@ -5,7 +5,7 @@ const transactionSchema = new Schema({
     date: {type: Date, required: true},
     amount: { type: Number, required: true},
     category: { type: String, enum: ['Bill', 'Deposit', 'ATM', 'Groceries', 'Misc'] },
-    description: String
+    description: {type:String, maxLength: 20}
 
 })
 

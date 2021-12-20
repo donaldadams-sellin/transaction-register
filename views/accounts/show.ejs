@@ -4,7 +4,7 @@
         <div class="flex-fill">
             <%= account.name %>
         </div>
-        <div class=""> Balance: $<%= account.transactions.reduce((acc,trans)=>acc+trans.amount,0).toFixed(2)%></div>
+        <div> Balance: $<%= account.transactions.reduce((acc,trans)=>acc+trans.amount,0).toFixed(2)%></div>
     </h2>
     <br>
 
@@ -14,7 +14,7 @@
             <label>Date:</label>
              <input required name="date" type="date">
             <label>Description:</label> 
-            <input name="description" type="text">
+            <input maxlength="20" name="description" type="text">
             <label>Category:</label> 
             <select name="category">
                 <option value="Bill">Bill</option>
@@ -85,7 +85,7 @@
                                 <label>Date:</label>
                                 <input value="<%= transaction.date.getFullYear() %>-<%= transaction.date.getMonth()+1 %>-<%= transaction.date.getDate() %>"  required name="date" type="date">
                                 <label>Description:</label> 
-                                <input value="<%= transaction.description %>" name="description" type="text">
+                                <input maxlength="20" value="<%= transaction.description %>" name="description" type="text">
                                 <label>Category:</label> 
                                 <select name="category" id="">
                                     <option value="Bill">Bill</option>
