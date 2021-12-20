@@ -1,4 +1,3 @@
-const { NotExtended } = require('http-errors');
 const Account = require('../models/account');
 
 module.exports = {
@@ -31,7 +30,9 @@ function create(req, res) {
 
 async function show(req, res) {
     const account = await Account.findById(req.params.id);
+    //prevent anyone other than the proper user from accessing the page
     if (!req.user._id.equals(account.user)) return res.redirect('/accounts');
+    //sort transactions for display from most recent to oldest
     account.transactions.sort(function (tran1, tran2) {
         if (tran1.date < tran2.date) return 1;
         if (tran1.date > tran2.date) return -1;
@@ -48,6 +49,7 @@ function deleteAccount(req, res) {
 
 async function update(req, res) {
     const account = await Account.findOne({'account._id': req.params.id});
+    //prevent modifying of name by anyone other than proper user
     if(!account.user.equals(req.user._id)) return redirect('/accounts');
     account.name = req.body.name;
     account.save()
@@ -58,14 +60,19 @@ async function update(req, res) {
     });
 }
 
+//function to filter displayed transactions by category
 async function filter(req, res){
     const account = await Account.findById(req.params.id);
-    if(req.body.category === 'All') return res.redirect(`/accounts/${account._id}`)
+    //just display regular page if filter selection is All
+    if(req.body.category === 'All') return res.redirect(`/accounts/${account._id}`);
+    //create array of all transactions so balance is still displayed properly on filters page
+    account.allTransactions = account.transactions
+    //filter the array and sort it properly
     account.transactions = account.transactions.filter(transaction => transaction.category === req.body.category);
     account.transactions.sort(function (tran1, tran2) {
         if (tran1.date < tran2.date) return 1;
         if (tran1.date > tran2.date) return -1;
         return 0;
     })
-    res.render('accounts/show', { account })
+    res.render('accounts/filter', { account })
 }

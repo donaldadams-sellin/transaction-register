@@ -4,7 +4,8 @@
         <div class="flex-fill">
             <%= account.name %>
         </div>
-        <div class=""> Balance: $<%= account.transactions.reduce((acc,trans)=>acc+trans.amount,0).toFixed(2)%></div>
+        <!-- This line is the only reason we have a seperate filter view, so balance can be displayed properly -->
+        <div class=""> Balance: $<%= account.allTransactions.reduce((acc,trans)=>acc+trans.amount,0).toFixed(2)%></div>
     </h2>
     <br>
 
@@ -24,7 +25,7 @@
                 <option value="Misc">Other</option>
             </select>
             <label>Amount:</label> 
-            <input required name="amount" type="number" step=.01>
+            <input name="amount" type="number" step=.01>
             <button type="submit" class="btn btn-dark">Submit</button>
         </form>
         <br>
@@ -79,7 +80,7 @@
                     
                     <td colspan="5" class="accordion-body collapse" id="edit<%= transaction._id %>">
                     
-                        <div>
+                        <div class="">
                             <p>Edit Transaction</p>
                             <form action="/transactions/<%= transaction._id %>?_method=PUT" method="POST">
                                 <label>Date:</label>

@@ -3,6 +3,8 @@ var router = express.Router();
 const passport = require('passport');
 /* GET home page. */
 router.get('/', function(req, res, next) {
+  //redirect signed in users to accounts page
+  if(req.user) res.redirect('/accounts');
   res.render('index');
 });
 
