@@ -84,7 +84,7 @@
                             <p>Edit Transaction</p>
                             <form action="/transactions/<%= transaction._id %>?_method=PUT" method="POST">
                                 <label>Date:</label>
-                                <input value="<%= transaction.date.getFullYear() %>-<%= transaction.date.getMonth()+1 %>-<%= transaction.date.getDate() %>"  required name="date" type="date">
+                                <input value="<%= transaction.date.getFullYear() %>-<%= (transaction.date.getMonth()+1).toString().length === 1 ? '0'+ (transaction.date.getMonth()+1) : transaction.date.getMonth() + 1  %>-<%= transaction.date.getDate().toString().length === 1 ? '0' + transaction.date.getDate() : transaction.date.getDate() %>"  required name="date" type="date">
                                 <label>Description:</label> 
                                 <input maxlength="20" value="<%= transaction.description %>" name="description" type="text">
                                 <label>Category:</label> 
