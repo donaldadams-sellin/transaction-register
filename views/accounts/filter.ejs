@@ -107,6 +107,9 @@
                     
                     
                     <% }) %>
+                    <tr>
+                        <td>Total for <%= category %> transactions: $<%=Math.abs(account.transactions.reduce((acc,trans)=>acc+trans.amount,0)).toFixed(2) %> </td>
+                    </tr>
 
             </tbody>
         </table>

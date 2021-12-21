@@ -74,5 +74,5 @@ async function filter(req, res){
         if (tran1.date > tran2.date) return -1;
         return 0;
     })
-    res.render('accounts/filter', { account })
+    res.render('accounts/filter', { account, category: req.body.category })
 }
