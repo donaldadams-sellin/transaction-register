@@ -6,7 +6,7 @@ module.exports= {
     update,
 }
 
-async function create (req, res){
+async function create (req, res, next){
     if(req.body.category !== 'Deposit') req.body.amount = req.body.amount*(-1);
     const account = await Account.findById(req.params.id);
     //ensure user creating transaction is accounts owner
@@ -24,7 +24,7 @@ async function create (req, res){
     
 }
 
-async function deleteTransaction(req, res){
+async function deleteTransaction(req, res, next){
     const account = await Account.findOne({'transactions._id': req.params.id});
     if(!account.user.equals(req.user._id)) return redirect('/accounts');
     account.transactions.id(req.params.id).remove();
@@ -37,7 +37,7 @@ async function deleteTransaction(req, res){
 
 }
 
-async function update(req, res){
+async function update(req, res, next){
     const account = await Account.findOne({'transactions._id': req.params.id});
     if(!account.user.equals(req.user._id)) return redirect('/accounts');
     console.log(req.body);

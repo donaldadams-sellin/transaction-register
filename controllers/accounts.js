@@ -14,7 +14,7 @@ async function index(req, res) {
     res.render('accounts/index', { accounts });
 }
 
-function create(req, res) {
+function create(req, res, next) {
     const account = new Account();
     account.name = req.body.name;
     account.user = req.user._id
@@ -47,7 +47,7 @@ function deleteAccount(req, res) {
     });
 }
 
-async function update(req, res) {
+async function update(req, res, next) {
     const account = await Account.findOne({'account._id': req.params.id});
     //prevent modifying of name by anyone other than proper user
     if(!account.user.equals(req.user._id)) return redirect('/accounts');
