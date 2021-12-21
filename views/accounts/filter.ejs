@@ -22,7 +22,7 @@
                 <option value="Deposit">Deposit</option>
                 <option value="ATM">ATM</option>
                 <option value="Groceries">Groceries</option>
-                <option value="Misc">Other</option>
+                <option value="Other">Other</option>
             </select>
             <label>Amount:</label> 
             <input name="amount" type="number" step=.01>
@@ -37,7 +37,7 @@
                 <option value="Deposit">Deposit</option>
                 <option value="ATM">ATM</option>
                 <option value="Groceries">Groceries</option>
-                <option value="Misc">Other</option>
+                <option value="Other">Other</option>
             </select>
             <button class="btn btn-dark btn-sm" type="submit">Submit</button>
         </form>
@@ -93,7 +93,7 @@
                                     <option <%= transaction.category==="Deposit" ? "selected" : null %>  value="Deposit">Deposit</option>
                                     <option <%= transaction.category==="ATM" ? "selected" : null %> value="ATM">ATM</option>
                                     <option <%= transaction.category==="Groceries" ? "selected" : null %> value="Groceries">Groceries</option>
-                                    <option <%= transaction.category==="Misc" ? "selected" : null %> value="Misc">Other</option>
+                                    <option <%= transaction.category==="Other" ? "selected" : null %> value="Other">Other</option>
                                 </select>
                                 <label>Amount:</label> 
                                 <input  value="<%= Math.abs(transaction.amount) %>" name="amount" type="number" step=.01>
