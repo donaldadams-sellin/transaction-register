@@ -48,7 +48,8 @@ function deleteAccount(req, res) {
 }
 
 async function update(req, res, next) {
-    const account = await Account.findOne({'account._id': req.params.id});
+    const account = await Account.findById(req.params.id);
+    console.log(account)
     //prevent modifying of name by anyone other than proper user
     if(!account.user.equals(req.user._id)) return redirect('/accounts');
     account.name = req.body.name;
